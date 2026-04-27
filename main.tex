@@ -1,0 +1,1670 @@
+\documentclass[12pt,openany]{book}
+
+% ============================================================
+% Pequeno Livro de Linux para Estudantes de Estatística e
+% Ciência de Dados
+% Arquivo principal: main.tex
+% ============================================================
+
+% ----------------------------
+% Idioma, codificação e fontes
+% ----------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ----------------------------
+% Geometria e layout
+% ----------------------------
+\usepackage[a4paper,margin=2.8cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ----------------------------
+% Matemática, tabelas e figuras
+% ----------------------------
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+
+% ----------------------------
+% Cores, links e metadados
+% ----------------------------
+\usepackage{xcolor}
+\definecolor{gulecdblue}{RGB}{0,85,150}
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=gulecdblue,
+    citecolor=gulecdblue,
+    urlcolor=gulecdblue
+]{hyperref}
+
+% ----------------------------
+% Bibliografia
+% ----------------------------
+\usepackage[
+    backend=biber,
+    style=authoryear,
+    sorting=nyt,
+    refsection=chapter
+]{biblatex}
+
+% Adicione o seu arquivo bib aqui em uma nova linha definida por \addbibresource
+\addbibresource{ref_marcosdecarvalho.bib}
+
+% Categorias para leituras recomendadas por parte.
+% As chaves devem existir nos arquivos bib definidos acima
+\DeclareBibliographyCategory{recomendadosParteI}
+\DeclareBibliographyCategory{recomendadosParteII}
+\DeclareBibliographyCategory{recomendadosParteIII}
+\DeclareBibliographyCategory{recomendadosParteIV}
+\DeclareBibliographyCategory{recomendadosParteV}
+\DeclareBibliographyCategory{recomendadosParteVI}
+\DeclareBibliographyCategory{recomendadosParteVII}
+\DeclareBibliographyCategory{recomendadosProximosPassos}
+
+\addtocategory{recomendadosParteI}{lacroixLinuxMintEssentials2014,jrLinuxCommandLine2012}
+\addtocategory{recomendadosParteII}{flyntLinuxShellScripting2017}
+\addtocategory{recomendadosParteIII}{flyntLinuxShellScripting2017}
+\addtocategory{recomendadosParteIV}{flyntLinuxShellScripting2017}
+\addtocategory{recomendadosParteV}{flyntLinuxShellScripting2017}
+\addtocategory{recomendadosParteVI}{flyntLinuxShellScripting2017}
+\addtocategory{recomendadosParteVII}{flyntLinuxShellScripting2017}
+\addtocategory{recomendadosProximosPassos}{flyntLinuxShellScripting2017}
+
+% ----------------------------
+% Glossário
+% ----------------------------
+\usepackage[toc,acronym]{glossaries}
+\makeglossaries
+
+\newglossaryentry{kernel}{
+    name={kernel},
+    description={Núcleo do sistema operacional responsável pela mediação entre hardware, processos, memória, dispositivos e chamadas de sistema}
+}
+
+\newglossaryentry{shell}{
+    name={shell},
+    description={Programa que interpreta comandos do usuário e permite interação textual com o sistema operacional}
+}
+
+\newglossaryentry{distro}{
+    name={distribuição Linux},
+    description={Sistema operacional completo construído a partir do kernel Linux, utilitários, bibliotecas, gerenciador de pacotes, ambiente gráfico e políticas de manutenção}
+}
+
+\newglossaryentry{pipe}{
+    name={pipe},
+    description={Mecanismo de composição em que a saída de um processo é conectada à entrada de outro processo}
+}
+
+\newglossaryentry{reprodutibilidade}{
+    name={reprodutibilidade computacional},
+    description={Capacidade de executar novamente um fluxo computacional e obter resultados equivalentes sob condições controladas e documentadas}
+}
+
+\newglossaryentry{hpc}{
+    name={HPC},
+    description={Computação de alto desempenho, geralmente realizada em clusters, servidores ou ambientes paralelos especializados}
+}
+
+\newglossaryentry{cli}{
+    name={CLI},
+    description={Interface de linha de comando, do inglês command-line interface}
+}
+
+\newglossaryentry{gui}{
+    name={GUI},
+    description={Interface gráfica de usuário, do inglês graphical user interface}
+}
+
+% ----------------------------
+% Comandos auxiliares
+% ----------------------------
+\newcommand{\placeholder}[1]{
+    \par\medskip
+    \noindent\textit{#1}
+    \par\medskip
+}
+
+\newcommand{\topicos}[1]{
+    \begin{itemize}
+        #1
+    \end{itemize}
+}
+
+\newcommand{\bibliografiaParte}[1]{
+    \cleardoublepage
+    \section*{Bibliografia da Parte}
+    \addcontentsline{toc}{section}{Bibliografia da Parte}
+    \printbibliography[
+        heading=none,
+        notcategory=#1
+    ]
+
+    \section*{Leitura Recomendada}
+    \addcontentsline{toc}{section}{Leitura Recomendada}
+    \nocite{*}
+    \printbibliography[
+        heading=none,
+        category=#1
+    ]
+}
+
+% ============================================================
+% Início do documento
+% ============================================================
+
+\begin{document}
+
+% ============================================================
+% Capa externa
+% ============================================================
+
+\begin{titlepage}
+    \thispagestyle{empty}
+    \centering
+
+    \vspace*{3cm}
+
+    {\Huge\bfseries Pequeno Livro de Linux\par}
+    \vspace{0.5cm}
+    {\Large\bfseries para Estudantes de Estatística e Ciência de Dados\par}
+
+    \vspace{3cm}
+
+    {\Large Grupo de Usuários Linux e Software Livre\par}
+    {\Large do Curso de Estatística e Ciência de Dados da UFPR\par}
+
+    \vfill
+
+    \placeholder{Espaço reservado para a futura arte de capa, ilustração, gráfico ou composição visual do livro.}
+
+    \vfill
+
+    {\large Curitiba, Paraná\par}
+    {\large \today\par}
+\end{titlepage}
+
+% ============================================================
+% Capa interna
+% ============================================================
+
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{2}
+
+\begin{titlepage}
+    \thispagestyle{plain}
+    \centering
+
+    \vspace*{6cm}
+
+    {\Huge\bfseries Pequeno Livro de Linux\par}
+    \vspace{0.5cm}
+    {\Large\bfseries para Estudantes de Estatística e Ciência de Dados\par}
+
+    \vfill
+\end{titlepage}
+
+% ============================================================
+% Autores
+% ============================================================
+
+\cleardoublepage
+\chapter*{Autores}
+\addcontentsline{toc}{chapter}{Autores}
+
+Este livro é uma obra colaborativa produzida no contexto do Grupo de Usuários Linux e Software Livre do Curso de Estatística e Ciência de Dados da UFPR.
+
+\section*{Lista de autores}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Os colaboradores que realizarem contribuições substanciais ao conteúdo do livro devem adicionar seus nomes nesta seção.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+    \item Marcos de Carvalho
+\end{itemize}
+
+% ============================================================
+% Agradecimentos
+% ============================================================
+
+\cleardoublepage
+\chapter*{Agradecimentos}
+\addcontentsline{toc}{chapter}{Agradecimentos}
+
+Agradecemos aos estudantes, professores, técnicos, colaboradores e membros da comunidade de software livre que contribuírem para a construção deste material. Este livro nasce da convicção de que o conhecimento técnico deve ser compartilhado, criticado, melhorado e colocado a serviço da formação científica.
+
+Agradecemos também ao Curso de Estatística e Ciência de Dados da Universidade Federal do Paraná, ao Departamento de Estatística e à comunidade acadêmica que apoia iniciativas de formação aberta e colaborativa.
+
+% ============================================================
+% Licença
+% ============================================================
+
+\cleardoublepage
+\chapter*{Licença}
+\addcontentsline{toc}{chapter}{Licença}
+
+Este livro é distribuído sob os termos da licença \textbf{GNU General Public License v3.0}, também conhecida como \textbf{GPL-3.0}.
+
+A versão juridicamente oficial da GPL-3.0 é o texto original em inglês publicado pela Free Software Foundation. O texto completo pode ser encontrado na raiz do repositório deste livro, no arquivo \texttt{LICENSE}. % e também abaixo.
+
+% TODO -- \section*{Texto oficial da licença}
+
+%\placeholder{Inserir aqui, se desejado, o texto oficial integral da GNU General Public License v3.0 em inglês por meio de um arquivo externo, por exemplo: \texttt{\textbackslash input\{licenca/gpl-3.0.tex\}}.}
+
+\section*{Descrição da GPL-3.0 no contexto deste livro}
+
+No contexto deste livro, a GPL-3.0 significa que qualquer pessoa pode ler, copiar, redistribuir, estudar, modificar e criar versões derivadas da obra, desde que as versões modificadas também sejam distribuídas sob a mesma licença. Isso preserva a liberdade do material ao longo do tempo e impede que uma versão derivada seja fechada ou redistribuída de forma incompatível com os princípios de acesso aberto e colaboração.
+
+Como o livro é escrito em LaTeX, o código-fonte da obra corresponde aos arquivos \texttt{.tex}, aos arquivos bibliográficos \texttt{.bib}, às figuras, tabelas, scripts auxiliares e demais arquivos necessários para reconstruir a versão final do livro. Assim, qualquer redistribuição substancial da obra deve preservar o acesso a esses arquivos-fonte.
+
+A licença também exige que os autores originais sejam creditados adequadamente. Portanto, contribuições relevantes devem ser registradas na lista de autores deste documento, bem como no histórico de contribuições do repositório.
+
+% ============================================================
+% Preâmbulo
+% ============================================================
+
+\cleardoublepage
+\chapter*{Preâmbulo}
+\addcontentsline{toc}{chapter}{Preâmbulo}
+
+Este livro surgiu da necessidade de produzir uma introdução ao Linux que fosse relevante para estudantes de Estatística e Ciência de Dados. Muitos materiais introdutórios tratam o Linux como um conjunto isolado de comandos, sem mostrar sua importância em processos de análise de dados, pesquisa científica, automação, reprodutibilidade e computação moderna. Este projeto parte da premissa oposta: Linux é uma infraestrutura intelectual e técnica para pensar, organizar, executar e reproduzir trabalho computacional.
+
+O público-alvo principal são estudantes de graduação em Estatística e Ciência de Dados, especialmente aqueles que estão iniciando seu contato com sistemas Unix-like, linha de comando, ambientes computacionais científicos, programação, análise de dados e ferramentas de reprodutibilidade. O texto também pode ser útil para estudantes de pós-graduação, pesquisadores, docentes e profissionais que desejem compreender melhor o papel do Linux na prática científica contemporânea.
+
+A obra é construída de forma aberta e colaborativa. O uso de LaTeX permite manter uma estrutura editorial robusta, adequada à produção de material acadêmico. O uso de Git permite rastrear alterações, revisar contribuições, discutir modificações e preservar a história intelectual do projeto. Essa escolha metodológica reflete a própria filosofia do livro: aprender Linux não é apenas aprender comandos, mas aprender uma forma de organizar trabalho técnico de modo transparente, auditável e reprodutível.
+
+O livro está organizado em partes progressivas. As primeiras seções apresentam fundamentos conceituais sobre sistemas operacionais, Linux, distribuições, instalação e formas de interação. Em seguida, o texto avança para uso prático, manipulação de arquivos, composição de comandos, automação, reprodutibilidade, integração com R e Python, infraestrutura computacional, HPC, containers, segurança, desempenho e filosofia Unix aplicada à ciência de dados.
+
+% ============================================================
+% Índice
+% ============================================================
+
+\cleardoublepage
+\tableofcontents
+
+% ============================================================
+% Parte I
+% ============================================================
+
+\begin{refsection}
+\part{Fundamentos}
+
+\chapter{O que é um sistema operacional}
+
+\section{Definição e função de um sistema operacional}
+
+\topicos{
+    \item Sistema operacional como mediador entre hardware e software.
+    \item Abstração de recursos físicos.
+    \item Interface para usuários e programas.
+    \item Sistema operacional como camada de controle e coordenação.
+}
+
+\placeholder{Esta seção deve apresentar uma definição conceitual de sistema operacional, mostrando que ele organiza recursos computacionais e fornece abstrações para que programas possam executar sem manipular diretamente o hardware.}
+
+\section{Gerenciamento de processos}
+
+\topicos{
+    \item O que é um processo.
+    \item Diferença entre programa e processo.
+    \item Escalonamento.
+    \item Execução concorrente.
+}
+
+\placeholder{Esta seção deve explicar como programas em execução são representados pelo sistema operacional e como múltiplas tarefas podem compartilhar o processador.}
+
+\section{Gerenciamento de memória}
+
+\topicos{
+    \item Memória física e memória virtual.
+    \item Espaço de endereçamento.
+    \item Paginação.
+    \item Isolamento entre processos.
+}
+
+\placeholder{Esta seção deve introduzir a ideia de que cada processo opera em um espaço de memória abstraído pelo sistema operacional, o que permite isolamento, proteção e melhor uso dos recursos.}
+
+\section{Sistema de arquivos}
+
+\topicos{
+    \item Arquivos como abstrações fundamentais.
+    \item Diretórios.
+    \item Permissões.
+    \item Organização persistente de dados.
+}
+
+\placeholder{Esta seção deve mostrar que o sistema de arquivos é uma abstração central para armazenar, localizar e manipular dados, programas e configurações.}
+
+\chapter{Como sistemas operacionais funcionam}
+
+\section{Kernel e espaço de usuário}
+
+\topicos{
+    \item Kernel.
+    \item User space.
+    \item Separação de privilégios.
+    \item Proteção do sistema.
+}
+
+\placeholder{Esta seção deve explicar a separação entre o núcleo do sistema operacional e os programas executados pelos usuários, mostrando por que essa separação é importante para estabilidade e segurança.}
+
+\section{Chamadas de sistema}
+
+\topicos{
+    \item O que são system calls.
+    \item Entrada e saída.
+    \item Criação de processos.
+    \item Acesso a arquivos e dispositivos.
+}
+
+\placeholder{Esta seção deve mostrar que programas comuns não acessam diretamente o hardware, mas solicitam serviços ao kernel por meio de chamadas de sistema.}
+
+\section{Escalonamento e multitarefa}
+
+\topicos{
+    \item Compartilhamento da CPU.
+    \item Estados de um processo.
+    \item Prioridades.
+    \item Impacto sobre desempenho.
+}
+
+\placeholder{Esta seção deve discutir como o sistema operacional decide qual processo executa em cada momento e como isso afeta programas científicos, scripts e pipelines de dados.}
+
+\section{Entrada, saída e buffering}
+
+\topicos{
+    \item I/O de disco.
+    \item I/O de terminal.
+    \item Buffers.
+    \item Gargalos de entrada e saída.
+}
+
+\placeholder{Esta seção deve conectar mecanismos internos de entrada e saída com problemas práticos de desempenho em análise de dados, especialmente quando arquivos grandes são manipulados.}
+
+\chapter{Breve histórico do Linux e da filosofia Unix}
+
+\section{Unix e sua influência}
+
+\topicos{
+    \item Origem do Unix.
+    \item Sistemas multiusuário.
+    \item Ferramentas pequenas e composáveis.
+    \item Cultura de programação sistêmica.
+}
+
+\placeholder{Esta seção deve apresentar o Unix como matriz histórica e conceitual do Linux, destacando seu impacto na computação científica e na cultura de ferramentas composáveis.}
+
+\section{O projeto GNU e o software livre}
+
+\topicos{
+    \item Origem do projeto GNU.
+    \item Liberdades do software livre.
+    \item Ferramentas GNU.
+    \item Relação entre GNU e Linux.
+}
+
+\placeholder{Esta seção deve explicar a relevância do projeto GNU para o ecossistema Linux e introduzir a dimensão ética, técnica e política do software livre.}
+
+\section{O kernel Linux}
+
+\topicos{
+    \item Surgimento do kernel Linux.
+    \item Desenvolvimento colaborativo.
+    \item Portabilidade.
+    \item Adoção em servidores, pesquisa e dispositivos.
+}
+
+\placeholder{Esta seção deve apresentar o kernel Linux como projeto técnico e comunitário, mostrando sua importância em servidores, supercomputadores, sistemas embarcados e ambientes científicos.}
+
+\section{Filosofia Unix}
+
+\topicos{
+    \item Fazer uma coisa e fazê-la bem.
+    \item Composição de ferramentas.
+    \item Texto como interface universal.
+    \item Automação por scripts.
+}
+
+\placeholder{Esta seção deve introduzir a filosofia Unix como modelo de trabalho que permite construir soluções complexas por composição de ferramentas simples.}
+
+\chapter{Arquitetura geral de um sistema Linux}
+
+\section{Componentes principais}
+
+\topicos{
+    \item Kernel.
+    \item Bibliotecas.
+    \item Shell.
+    \item Serviços.
+    \item Aplicativos.
+}
+
+\placeholder{Esta seção deve oferecer uma visão em camadas de um sistema Linux, mostrando como diferentes componentes interagem para formar um ambiente funcional.}
+
+\section{Sistema de inicialização}
+
+\topicos{
+    \item Boot.
+    \item Bootloader.
+    \item Init.
+    \item systemd.
+}
+
+\placeholder{Esta seção deve explicar, em nível introdutório, como o sistema passa do firmware ao kernel e depois aos serviços de usuário.}
+
+\section{Diretórios especiais}
+
+\topicos{
+    \item \texttt{/proc}.
+    \item \texttt{/sys}.
+    \item \texttt{/dev}.
+    \item \texttt{/etc}.
+}
+
+\placeholder{Esta seção deve mostrar que alguns diretórios representam interfaces dinâmicas com o kernel, dispositivos e configuração do sistema.}
+
+\chapter{Formas de interação com o sistema}
+
+\section{Interface gráfica}
+
+\topicos{
+    \item Ambientes gráficos.
+    \item Gerenciadores de janelas.
+    \item Aplicativos gráficos.
+    \item Vantagens e limitações da GUI.
+}
+
+\placeholder{Esta seção deve apresentar a interface gráfica como uma camada de interação amigável, útil para muitas tarefas, mas limitada para automação e composição.}
+
+\section{Terminal e linha de comando}
+
+\topicos{
+    \item Terminal.
+    \item Shell.
+    \item Comandos.
+    \item Scripts.
+}
+
+\placeholder{Esta seção deve introduzir o terminal como ambiente de interação textual, destacando sua importância para ciência de dados, automação e trabalho remoto.}
+
+\section{Comparação entre CLI e GUI}
+
+\topicos{
+    \item Interatividade.
+    \item Automação.
+    \item Reprodutibilidade.
+    \item Curva de aprendizado.
+}
+
+\placeholder{Esta seção deve comparar os paradigmas de interface e mostrar que CLI e GUI não são rivais, mas ferramentas complementares.}
+
+\chapter{O que são distribuições Linux e como escolher}
+
+\section{Definição de distribuição Linux}
+
+\topicos{
+    \item Kernel Linux.
+    \item Userland.
+    \item Gerenciador de pacotes.
+    \item Políticas de atualização.
+}
+
+\placeholder{Esta seção deve explicar que uma distribuição Linux é um sistema operacional completo construído ao redor do kernel Linux.}
+
+\section{Famílias de distribuições}
+
+\topicos{
+    \item Debian e derivadas.
+    \item Red Hat e derivadas.
+    \item Arch e derivadas.
+    \item Distribuições científicas ou especializadas.
+}
+
+\placeholder{Esta seção deve apresentar famílias de distribuições e mostrar diferenças relevantes para estudantes, pesquisadores e usuários iniciantes.}
+
+\section{Critérios de escolha}
+
+\topicos{
+    \item Estabilidade.
+    \item Facilidade de uso.
+    \item Comunidade.
+    \item Documentação.
+    \item Disponibilidade de pacotes esatísticos e científicos.
+}
+
+\placeholder{Esta seção deve orientar o estudante a escolher uma distribuição considerando objetivos, hardware, experiência prévia e suporte comunitário.}
+
+\chapter{Processo geral de instalação do Linux}
+
+\section{Preparação}
+
+\topicos{
+    \item Backup.
+    \item Escolha da distribuição.
+    \item Verificação da imagem ISO.
+    \item Criação de mídia de instalação.
+}
+
+\placeholder{Esta seção deve descrever a preparação conceitual para instalação, enfatizando backup, segurança e verificação de integridade.}
+
+\section{Boot e firmware}
+
+\topicos{
+    \item BIOS.
+    \item UEFI.
+    \item Ordem de boot.
+    \item Secure Boot.
+}
+
+\placeholder{Esta seção deve explicar os conceitos gerais envolvidos no início da instalação, sem depender de uma distribuição específica.}
+
+\section{Particionamento}
+
+\topicos{
+    \item Disco.
+    \item Partição.
+    \item Sistema de arquivos.
+    \item Dual boot.
+    \item Partição EFI.
+}
+
+\placeholder{Esta seção deve explicar decisões gerais de particionamento e seus riscos, preparando o estudante para compreender instaladores diferentes.}
+
+\section{Instalação e pós-instalação}
+
+\topicos{
+    
+    \item Instalação do bootloader.
+    \item Particionamento
+    \item Criação de usuário.
+    \item Atualização do sistema.
+    \item Instalação de pacotes essenciais.
+}
+
+\placeholder{Esta seção deve apresentar a lógica geral da instalação e as primeiras tarefas após reiniciar no sistema instalado.}
+
+\chapter{Estrutura de diretórios e sistema de arquivos}
+
+\section{Hierarquia padrão}
+
+\topicos{
+    \item \texttt{/home}.
+    \item \texttt{/usr}.
+    \item \texttt{/var}.
+    \item \texttt{/tmp}.
+    \item \texttt{/etc}.
+}
+
+\placeholder{Esta seção deve explicar a organização típica de diretórios em sistemas Linux e sua relevância para localizar dados, programas e configurações.}
+
+\section{Permissões e propriedade}
+
+\topicos{
+    \item Usuário.
+    \item Grupo.
+    \item Permissões de leitura, escrita e execução.
+    \item Comando \texttt{chmod}.
+    \item Comando \texttt{chown}.
+}
+
+\placeholder{Esta seção deve introduzir o modelo de permissões como mecanismo de segurança e organização multiusuário.}
+
+\section{Links e pontos de montagem}
+
+\topicos{
+    \item Links simbólicos.
+    \item Hard links.
+    \item Montagem.
+    \item Dispositivos externos.
+}
+
+\placeholder{Esta seção deve explicar como arquivos e dispositivos podem ser referenciados e integrados à árvore de diretórios.}
+
+\bibliografiaParte{recomendadosParteI}
+\end{refsection}
+
+% ============================================================
+% Parte II
+% ============================================================
+
+\begin{refsection}
+\part{Uso prático}
+
+\chapter{Navegação e manipulação básica de arquivos}
+
+\section{Navegação no terminal}
+
+\topicos{
+    \item \texttt{pwd}.
+    \item \texttt{ls}.
+    \item \texttt{cd}.
+    \item Caminhos absolutos e relativos.
+}
+
+\placeholder{Esta seção deve ensinar a movimentação básica pela árvore de diretórios e desenvolver intuição espacial sobre o sistema de arquivos.}
+
+\section{Criação, cópia, movimentação e remoção}
+
+\topicos{
+    \item \texttt{touch}.
+    \item \texttt{mkdir}.
+    \item \texttt{cp}.
+    \item \texttt{mv}.
+    \item \texttt{rm}.
+}
+
+\placeholder{Esta seção deve introduzir operações fundamentais de manipulação de arquivos, sempre destacando riscos, boas práticas e exemplos com diretórios de projeto.}
+
+\section{Globbing e padrões}
+
+\topicos{
+    \item \texttt{*}.
+    \item \texttt{?}.
+    \item Listas de caracteres.
+    \item Expansão pelo shell.
+}
+
+\placeholder{Esta seção deve explicar como o shell expande padrões de nomes de arquivos e como isso facilita operações em lote.}
+
+\chapter{Visualização e inspeção de dados}
+
+\section{Inspeção de arquivos}
+
+\topicos{
+    \item \texttt{cat}.
+    \item \texttt{less}.
+    \item \texttt{head}.
+    \item \texttt{tail}.
+}
+
+\placeholder{Esta seção deve mostrar como examinar arquivos de texto, CSVs, logs e saídas de programas sem abrir editores pesados.}
+
+\section{Arquivos grandes}
+
+\topicos{
+    \item Leitura parcial.
+    \item Paginação.
+    \item Evitar carregar tudo na memória.
+    \item Estratégias de amostragem rápida.
+}
+
+\placeholder{Esta seção deve mostrar que arquivos grandes exigem estratégias diferentes de inspeção, particularmente em ciência de dados.}
+
+\section{Encoding e caracteres}
+
+\topicos{
+    \item UTF-8.
+    \item Problemas de acentuação.
+    \item Arquivos vindos de diferentes sistemas.
+    \item Conversão de codificação.
+}
+
+\placeholder{Esta seção deve introduzir problemas comuns de codificação textual que afetam bases de dados, planilhas exportadas e documentos científicos.}
+
+\chapter{Pipes e composição de comandos}
+
+\section{Entrada padrão, saída padrão e erro padrão}
+
+\topicos{
+    \item \texttt{stdin}.
+    \item \texttt{stdout}.
+    \item \texttt{stderr}.
+    \item Redirecionamento.
+}
+
+\placeholder{Esta seção deve explicar o modelo de fluxo textual que permite conectar programas e registrar resultados.}
+
+\section{Pipes}
+
+\topicos{
+    \item Operador \texttt{|}.
+    \item Encadeamento de comandos.
+    \item Composição funcional.
+    \item Pipelines de dados.
+}
+
+\placeholder{Esta seção deve apresentar pipes como mecanismo central da filosofia Unix e como analogia operacional para pipelines de ciência de dados.}
+
+\section{Redirecionamento}
+
+\topicos{
+    \item \texttt{>}.
+    \item \texttt{>>}.
+    \item \texttt{2>}.
+    \item Arquivos de log.
+}
+
+\placeholder{Esta seção deve mostrar como salvar resultados, acumular saídas e separar erros de resultados úteis.}
+
+\chapter{Filtragem e transformação de dados em escala}
+
+\section{Filtragem textual}
+
+\topicos{
+    \item \texttt{grep}.
+    \item Busca por padrões.
+    \item Sensibilidade a maiúsculas e minúsculas.
+    \item Contagem de ocorrências.
+}
+
+\placeholder{Esta seção deve introduzir buscas textuais em arquivos grandes e conectar o uso de filtros à exploração inicial de dados.}
+
+\section{Seleção de colunas e campos}
+
+\topicos{
+    \item \texttt{cut}.
+    \item Delimitadores.
+    \item Campos.
+    \item Arquivos tabulares.
+}
+
+\placeholder{Esta seção deve mostrar como extrair partes específicas de arquivos tabulares diretamente pelo terminal.}
+
+\section{Ordenação, contagem e sumarização}
+
+\topicos{
+    \item \texttt{sort}.
+    \item \texttt{uniq}.
+    \item \texttt{wc}.
+    \item Frequências simples.
+}
+
+\placeholder{Esta seção deve apresentar operações básicas de sumarização que podem ser executadas antes de abrir R ou Python.}
+
+\section{Transformações com \texttt{awk} e \texttt{sed}}
+
+\topicos{
+    \item Campos e registros.
+    \item Substituição textual.
+    \item Transformações linha a linha.
+    \item Pequenos programas de transformação.
+}
+
+\placeholder{Esta seção deve introduzir \texttt{awk} e \texttt{sed} como ferramentas para transformações rápidas, sem pretender substituir linguagens completas de análise.}
+
+\chapter{Expressões regulares}
+
+\section{Padrões e correspondência}
+
+\topicos{
+    \item Literais.
+    \item Classes de caracteres.
+    \item Quantificadores.
+    \item Âncoras.
+}
+
+\placeholder{Esta seção deve apresentar expressões regulares como linguagem formal para descrever padrões textuais.}
+
+\section{Captura e substituição}
+
+\topicos{
+    \item Grupos.
+    \item Subexpressões.
+    \item Substituição.
+    \item Reorganização de texto.
+}
+
+\placeholder{Esta seção deve mostrar como expressões regulares permitem extrair, validar e reorganizar informações em arquivos textuais.}
+
+\section{Aplicações em dados reais}
+
+\topicos{
+    \item Logs.
+    \item Identificadores.
+    \item Códigos de amostras.
+    \item Dados semiestruturados.
+}
+
+\placeholder{Esta seção deve aplicar regex a problemas próximos da realidade de estudantes e pesquisadores.}
+
+\chapter{One-liners como pipelines analíticos}
+
+\section{O que é um one-liner}
+
+\topicos{
+    \item Comando curto.
+    \item Composição.
+    \item Operação reproduzível.
+    \item Documentação por exemplos.
+}
+
+\placeholder{Esta seção deve definir one-liners como pequenas unidades de conhecimento prático, úteis para aprendizagem, automação e resolução rápida de problemas.}
+
+\section{Legibilidade e manutenção}
+
+\topicos{
+    \item Quando usar one-liners.
+    \item Quando transformar em script.
+    \item Comentários.
+    \item Clareza vs densidade.
+}
+
+\placeholder{Esta seção deve discutir os limites pedagógicos e práticos dos one-liners, evitando transformar concisão em obscuridade.}
+
+\section{Biblioteca de one-liners}
+
+\topicos{
+    \item Organização por tema.
+    \item Exemplos testáveis.
+    \item Metadados.
+    \item Contribuição colaborativa.
+}
+
+\placeholder{Esta seção deve conectar o livro a uma possível biblioteca colaborativa de comandos úteis para estudantes.}
+
+\bibliografiaParte{recomendadosParteII}
+\end{refsection}
+
+% ============================================================
+% Parte III
+% ============================================================
+
+\begin{refsection}
+\part{Automação e reprodutibilidade}
+
+\chapter{Scripts em shell}
+
+\section{Por que escrever scripts}
+
+\topicos{
+    \item Repetição.
+    \item Automação.
+    \item Documentação executável.
+    \item Redução de erro manual.
+}
+
+\placeholder{Esta seção deve mostrar que scripts transformam comandos interativos em procedimentos reprodutíveis.}
+
+\section{Variáveis, argumentos e controle de fluxo}
+
+\topicos{
+    \item Variáveis.
+    \item Argumentos posicionais.
+    \item Condicionais.
+    \item Laços.
+}
+
+\placeholder{Esta seção deve introduzir os elementos mínimos de programação em shell necessários para automatizar tarefas.}
+
+\section{Boas práticas em shell scripts}
+
+\topicos{
+    \item Cabeçalho.
+    \item Mensagens de erro.
+    \item Verificação de argumentos.
+    \item Organização.
+}
+
+\placeholder{Esta seção deve ensinar práticas defensivas para evitar scripts frágeis e difíceis de depurar.}
+
+\chapter{Controle de versão e rastreabilidade}
+
+\section{Introdução ao Git}
+
+\topicos{
+    \item Repositórios.
+    \item Commits.
+    \item Histórico.
+    \item Branches.
+}
+
+\placeholder{Esta seção deve apresentar Git como ferramenta de rastreabilidade intelectual e técnica.}
+
+\section{Git em projetos científicos}
+
+\topicos{
+    \item Versionamento de scripts.
+    \item Versionamento de manuscritos.
+    \item Registro de decisões.
+    \item Colaboração.
+}
+
+\placeholder{Esta seção deve mostrar como Git se integra à escrita científica, à análise de dados e à colaboração em equipe.}
+
+\section{Boas práticas de commits}
+
+\topicos{
+    \item Mensagens claras.
+    \item Commits pequenos.
+    \item Revisão por pares.
+    \item Pull requests.
+}
+
+\placeholder{Esta seção deve conectar práticas de desenvolvimento de software a projetos acadêmicos e colaborativos.}
+
+\chapter{Reprodutibilidade computacional}
+
+\section{O que é reprodutibilidade}
+
+\topicos{
+    \item Reprodutibilidade.
+    \item Replicabilidade.
+    \item Transparência.
+    \item Auditoria.
+}
+
+\placeholder{Esta seção deve definir reprodutibilidade computacional e explicar sua importância para ciência de dados e pesquisa científica.}
+
+\section{Estrutura de projetos reproduzíveis}
+
+\topicos{
+    \item Diretórios padronizados.
+    \item Dados brutos.
+    \item Dados processados.
+    \item Scripts.
+    \item Resultados.
+}
+
+\placeholder{Esta seção deve propor uma organização mínima para projetos analíticos que possam ser compreendidos e reexecutados.}
+
+\section{Logs, seeds e ambientes}
+
+\topicos{
+    \item Registro de execução.
+    \item Aleatoriedade controlada.
+    \item Versões de pacotes.
+    \item Ambientes computacionais.
+}
+
+\placeholder{Esta seção deve apresentar elementos que afetam a capacidade de reproduzir resultados computacionais.}
+
+\chapter{Automação de tarefas}
+
+\section{Agendamento com cron}
+
+\topicos{
+    \item Tarefas periódicas.
+    \item Sintaxe básica.
+    \item Logs.
+    \item Cuidados.
+}
+
+\placeholder{Esta seção deve introduzir execução periódica de comandos e scripts para tarefas repetitivas.}
+
+\section{Automação local}
+
+\topicos{
+    \item Backups.
+    \item Atualização de dados.
+    \item Relatórios.
+    \item Monitoramento.
+}
+
+\placeholder{Esta seção deve mostrar exemplos práticos de automação úteis para estudantes.}
+
+\chapter{Build systems e workflows}
+
+\section{Make}
+
+\topicos{
+    \item Alvos.
+    \item Dependências.
+    \item Regras.
+    \item Reconstrução incremental.
+}
+
+\placeholder{Esta seção deve apresentar \texttt{make} como uma ferramenta geral para organizar dependências entre arquivos e comandos.}
+
+\section{Workflows como grafos}
+
+\topicos{
+    \item DAGs.
+    \item Etapas de análise.
+    \item Dependências.
+    \item Reexecução seletiva.
+}
+
+\placeholder{Esta seção deve conectar workflows computacionais à ideia de grafos acíclicos direcionados.}
+
+\section{Snakemake e Nextflow}
+
+\topicos{
+    \item Motivação.
+    \item Escalabilidade.
+    \item Ambientes científicos.
+    \item Bioinformática e ciência de dados.
+}
+
+\placeholder{Esta seção deve apresentar ferramentas modernas de workflow como evolução natural de scripts e Makefiles em projetos complexos.}
+
+\bibliografiaParte{recomendadosParteIII}
+\end{refsection}
+
+% ============================================================
+% Parte IV
+% ============================================================
+
+\begin{refsection}
+\part{Integração com ciência de dados}
+
+\chapter{Integração com R e Python}
+
+\section{Execução de scripts}
+
+\topicos{
+    \item \texttt{Rscript}.
+    \item \texttt{python}.
+    \item Argumentos de linha de comando.
+    \item Entrada e saída.
+}
+
+\placeholder{Esta seção deve mostrar como executar análises em R e Python a partir do terminal.}
+
+\section{Pipelines híbridos}
+
+\topicos{
+    \item Shell como cola.
+    \item Pré-processamento.
+    \item Análise estatística.
+    \item Relatórios.
+}
+
+\placeholder{Esta seção deve mostrar como Linux, R e Python podem funcionar como partes complementares de um mesmo pipeline.}
+
+\section{Organização de projetos analíticos}
+
+\topicos{
+    \item Diretórios.
+    \item Scripts.
+    \item Dados.
+    \item Resultados.
+    \item Documentação.
+}
+
+\placeholder{Esta seção deve propor padrões de organização para projetos de análise de dados em ambiente Linux.}
+
+\chapter{Gerenciamento de ambientes}
+
+\section{Por que isolar ambientes}
+
+\topicos{
+    \item Dependências.
+    \item Versões.
+    \item Conflitos.
+    \item Reprodutibilidade.
+}
+
+\placeholder{Esta seção deve explicar por que ambientes isolados são necessários em projetos com múltiplas bibliotecas e versões.}
+
+\section{Ambientes Python}
+
+\topicos{
+    \item \texttt{venv}.
+    \item \texttt{pip}.
+    \item \texttt{requirements.txt}.
+    \item Ambientes por projeto.
+}
+
+\placeholder{Esta seção deve introduzir práticas básicas de isolamento de ambientes Python.}
+
+\section{Conda}
+
+\topicos{
+    \item Ambientes Conda.
+    \item Pacotes científicos.
+    \item Arquivos \texttt{environment.yml}.
+    \item Vantagens e limitações.
+}
+
+\placeholder{Esta seção deve apresentar Conda como solução frequente em ciência de dados, bioinformática e computação científica.}
+
+\chapter{Manipulação de dados grandes em ambiente local}
+
+\section{Processamento por streaming}
+
+\topicos{
+    \item Leitura linha a linha.
+    \item Evitar carregar tudo em memória.
+    \item Composição de filtros.
+    \item Pré-processamento no terminal.
+}
+
+\placeholder{Esta seção deve explicar por que operações baseadas em streaming são úteis para arquivos maiores que a memória disponível.}
+
+\section{Amostragem e inspeção}
+
+\topicos{
+    \item Amostras aleatórias.
+    \item Primeiras linhas.
+    \item Últimas linhas.
+    \item Estatísticas rápidas.
+}
+
+\placeholder{Esta seção deve ensinar estratégias de exploração preliminar de arquivos grandes.}
+
+\section{Compressão}
+
+\topicos{
+    \item \texttt{gzip}.
+    \item \texttt{xz}.
+    \item \texttt{zcat}.
+    \item Pipelines com arquivos comprimidos.
+}
+
+\placeholder{Esta seção deve mostrar como trabalhar com dados comprimidos sem necessariamente descompactar tudo em disco.}
+
+\chapter{Introdução a bancos de dados via terminal}
+
+\section{SQLite}
+
+\topicos{
+    \item Banco de dados em arquivo único.
+    \item Tabelas.
+    \item Consultas SQL.
+    \item Uso local.
+}
+
+\placeholder{Esta seção deve apresentar SQLite como uma ponte simples entre arquivos tabulares e bancos de dados relacionais.}
+
+\section{Consultas básicas}
+
+\topicos{
+    \item \texttt{SELECT}.
+    \item \texttt{WHERE}.
+    \item \texttt{GROUP BY}.
+    \item \texttt{ORDER BY}.
+}
+
+\placeholder{Esta seção deve introduzir consultas SQL essenciais para estudantes de dados.}
+
+\section{Integração com pipelines}
+
+\topicos{
+    \item Importação de CSV.
+    \item Exportação de resultados.
+    \item Uso com shell.
+    \item Uso com R e Python.
+}
+
+\placeholder{Esta seção deve mostrar como bancos de dados locais podem participar de fluxos reprodutíveis de análise.}
+
+\bibliografiaParte{recomendadosParteIV}
+\end{refsection}
+
+% ============================================================
+% Parte V
+% ============================================================
+
+\begin{refsection}
+\part{Sistemas e infraestrutura}
+
+\chapter{Processos e monitoramento}
+
+\section{Processos em execução}
+
+\topicos{
+    \item \texttt{ps}.
+    \item PID.
+    \item Usuário.
+    \item Estado do processo.
+}
+
+\placeholder{Esta seção deve explicar como observar programas em execução e identificar processos relevantes.}
+
+\section{Monitoramento interativo}
+
+\topicos{
+    \item \texttt{top}.
+    \item \texttt{htop}.
+    \item CPU.
+    \item Memória.
+}
+
+\placeholder{Esta seção deve mostrar como acompanhar uso de recursos durante análises e scripts longos.}
+
+\section{Encerramento de processos}
+
+\topicos{
+    \item Sinais.
+    \item \texttt{kill}.
+    \item \texttt{SIGTERM}.
+    \item \texttt{SIGKILL}.
+}
+
+\placeholder{Esta seção deve explicar como encerrar processos de modo seguro e quando medidas mais fortes são necessárias.}
+
+\chapter{Gerenciamento de pacotes}
+
+\section{Conceitos fundamentais}
+
+\topicos{
+    \item Pacotes.
+    \item Repositórios.
+    \item Dependências.
+    \item Atualizações.
+}
+
+\placeholder{Esta seção deve explicar o papel do gerenciador de pacotes na instalação e manutenção de software.}
+
+\section{Gerenciadores comuns}
+
+\topicos{
+    \item \texttt{apt}.
+    \item \texttt{dnf}.
+    \item \texttt{pacman}.
+    \item Diferenças entre distribuições.
+}
+
+\placeholder{Esta seção deve apresentar gerenciadores de pacotes de diferentes famílias de distribuições.}
+
+\section{Binários e compilação}
+
+\topicos{
+    \item Pacotes binários.
+    \item Código-fonte.
+    \item Compilação.
+    \item Dependências de desenvolvimento.
+}
+
+\placeholder{Esta seção deve explicar quando é necessário compilar software e quais riscos isso introduz.}
+
+\chapter{Redes e acesso remoto}
+
+\section{Conceitos básicos de rede}
+
+\topicos{
+    \item IP.
+    \item Portas.
+    \item Protocolos.
+    \item Cliente e servidor.
+}
+
+\placeholder{Esta seção deve introduzir conceitos mínimos de rede necessários para uso remoto de sistemas Linux.}
+
+\section{SSH}
+
+\topicos{
+    \item Login remoto.
+    \item Chaves SSH.
+    \item Segurança.
+    \item Execução remota de comandos.
+}
+
+\placeholder{Esta seção deve apresentar SSH como ferramenta essencial para servidores, clusters e colaboração técnica.}
+
+\section{Transferência de arquivos}
+
+\topicos{
+    \item \texttt{scp}.
+    \item \texttt{rsync}.
+    \item Sincronização.
+    \item Transferências incrementais.
+}
+
+\placeholder{Esta seção deve mostrar métodos seguros e eficientes de transferir dados entre máquinas.}
+
+\chapter{Computação em clusters e HPC}
+
+\section{Do computador pessoal ao cluster}
+
+\topicos{
+    \item Recursos compartilhados.
+    \item Nós computacionais.
+    \item Filas.
+    \item Jobs.
+}
+
+\placeholder{Esta seção deve explicar a diferença entre executar análises localmente e usar infraestrutura compartilhada de alto desempenho.}
+
+\section{SLURM}
+
+\topicos{
+    \item Submissão de jobs.
+    \item Scripts batch.
+    \item Alocação de recursos.
+    \item Monitoramento.
+}
+
+\placeholder{Esta seção deve introduzir SLURM como sistema comum de gerenciamento de jobs em clusters.}
+
+\section{Boas práticas em HPC}
+
+\topicos{
+    \item Solicitação adequada de recursos.
+    \item Logs.
+    \item Organização de resultados.
+    \item Respeito ao ambiente compartilhado.
+}
+
+\placeholder{Esta seção deve discutir responsabilidade e eficiência no uso de clusters.}
+
+\chapter{Containers e ambientes reprodutíveis}
+
+\section{O que são containers}
+
+\topicos{
+    \item Isolamento.
+    \item Imagens.
+    \item Execução portável.
+    \item Diferença entre container e máquina virtual.
+}
+
+\placeholder{Esta seção deve explicar containers como mecanismo de empacotamento de ambientes computacionais.}
+
+\section{Docker}
+
+\topicos{
+    \item Imagens.
+    \item Containers.
+    \item Dockerfile.
+    \item Volumes.
+}
+
+\placeholder{Esta seção deve introduzir conceitos básicos de Docker e sua utilidade para ciência de dados.}
+
+\section{Containers em ciência}
+
+\topicos{
+    \item Reprodutibilidade.
+    \item Ambientes complexos.
+    \item Distribuição de pipelines.
+    \item Limitações e segurança.
+}
+
+\placeholder{Esta seção deve discutir containers como ferramenta de infraestrutura científica, sem esconder seus limites.}
+
+\bibliografiaParte{recomendadosParteV}
+\end{refsection}
+
+% ============================================================
+% Parte VI
+% ============================================================
+
+\begin{refsection}
+\part{Prática avançada}
+
+\chapter{Debugging e análise de erros}
+
+\section{Como ler erros}
+
+\topicos{
+    \item Mensagens de erro.
+    \item Código de saída.
+    \item Logs.
+    \item Diagnóstico incremental.
+}
+
+\placeholder{Esta seção deve ensinar o estudante a tratar erros como fontes de informação, não como eventos misteriosos.}
+
+\section{Saída de erro e logs}
+
+\topicos{
+    \item \texttt{stderr}.
+    \item Redirecionamento.
+    \item Arquivos de log.
+    \item Rastreamento de execução.
+}
+
+\placeholder{Esta seção deve aprofundar a distinção entre resultados e mensagens diagnósticas.}
+
+\section{Estratégias de depuração}
+
+\topicos{
+    \item Reduzir o problema.
+    \item Testar partes isoladas.
+    \item Verificar entradas.
+    \item Registrar passos intermediários.
+}
+
+\placeholder{Esta seção deve apresentar um método geral de depuração aplicável a scripts, comandos e pipelines.}
+
+\chapter{Performance e otimização}
+
+\section{Gargalos comuns}
+
+\topicos{
+    \item CPU.
+    \item Memória.
+    \item Disco.
+    \item Rede.
+}
+
+\placeholder{Esta seção deve ensinar a distinguir gargalos computacionais e evitar otimizações prematuras.}
+
+\section{Paralelismo simples}
+
+\topicos{
+    \item \texttt{xargs -P}.
+    \item GNU Parallel.
+    \item Tarefas independentes.
+    \item Riscos de concorrência.
+}
+
+\placeholder{Esta seção deve introduzir paralelismo prático para tarefas independentes comuns em ciência de dados.}
+
+\section{Profiling básico}
+
+\topicos{
+    \item Tempo de execução.
+    \item Uso de memória.
+    \item Comparação de abordagens.
+    \item Medição antes de otimizar.
+}
+
+\placeholder{Esta seção deve mostrar que decisões de otimização devem ser guiadas por medidas.}
+
+\chapter{Segurança básica}
+
+\section{Usuários, grupos e privilégios}
+
+\topicos{
+    \item Usuários.
+    \item Grupos.
+    \item Permissões.
+    \item \texttt{sudo}.
+}
+
+\placeholder{Esta seção deve apresentar o modelo básico de segurança de um sistema Linux multiusuário.}
+
+\section{Boas práticas}
+
+\topicos{
+    \item Atualizações.
+    \item Senhas.
+    \item Chaves SSH.
+    \item Cuidado com comandos destrutivos.
+}
+
+\placeholder{Esta seção deve ensinar práticas mínimas de segurança para estudantes que começam a usar Linux.}
+
+\section{Segurança em dados científicos}
+
+\topicos{
+    \item Dados sensíveis.
+    \item Controle de acesso.
+    \item Backup.
+    \item Compartilhamento responsável.
+}
+
+\placeholder{Esta seção deve conectar segurança computacional à responsabilidade científica e ética no tratamento de dados.}
+
+\bibliografiaParte{recomendadosParteVI}
+\end{refsection}
+
+\begin{refsection}
+\part{Filosofia UNIX}
+
+\chapter{Filosofia Unix aplicada à ciência de dados}
+
+\section{Composição}
+
+\topicos{
+    \item Ferramentas pequenas.
+    \item Interfaces textuais.
+    \item Pipelines.
+    \item Modularidade.
+}
+
+\placeholder{Esta seção deve sintetizar a ideia de que tarefas complexas podem ser decompostas em operações simples conectadas.}
+
+\section{Minimalismo operacional}
+
+\topicos{
+    \item Soluções pequenas.
+    \item Redução de dependências.
+    \item Clareza.
+    \item Reutilização.
+}
+
+\placeholder{Esta seção deve discutir como o minimalismo técnico pode produzir fluxos de trabalho mais robustos e compreensíveis.}
+
+\section{Pipelines como grafos}
+
+\topicos{
+    \item Nós.
+    \item Arestas.
+    \item Transformações.
+    \item Fluxos de dados.
+}
+
+\placeholder{Esta seção deve reinterpretar pipelines Unix como grafos computacionais, aproximando Linux de conceitos modernos de workflows de dados.}
+
+\chapter{Do laptop ao ambiente de produção}
+
+\section{Escala de maturidade computacional}
+
+\topicos{
+    \item Uso individual.
+    \item Projetos reproduzíveis.
+    \item Servidores.
+    \item Clusters.
+    \item Produção.
+}
+
+\placeholder{Esta seção deve mostrar como as práticas aprendidas no livro podem evoluir para ambientes mais profissionais.}
+
+\section{Organização de projetos de longo prazo}
+
+\topicos{
+    \item Estrutura.
+    \item Documentação.
+    \item Automação.
+    \item Manutenção.
+}
+
+\placeholder{Esta seção deve discutir como manter projetos científicos e computacionais compreensíveis ao longo do tempo.}
+
+\section{Boas práticas profissionais}
+
+\topicos{
+    \item Revisão.
+    \item Testes.
+    \item Integração contínua.
+    \item Distribuição.
+}
+
+\placeholder{Esta seção deve apresentar práticas profissionais que podem ser incorporadas gradualmente por estudantes.}
+
+\bibliografiaParte{recomendadosParteVII}
+\end{refsection}
+
+% ============================================================
+% Próximos passos
+% ============================================================
+
+\begin{refsection}
+\chapter{Próximos passos}
+
+\section{Como continuar aprendendo Linux}
+
+\topicos{
+    \item Prática cotidiana.
+    \item Leitura de manuais.
+    \item Exploração de projetos reais.
+    \item Participação em comunidades.
+}
+
+\placeholder{Esta seção deve orientar o estudante a transformar Linux em ferramenta cotidiana de estudo e trabalho.}
+
+\section{Projetos sugeridos}
+
+\topicos{
+    \item Organizar um projeto de análise reproduzível.
+    \item Criar scripts de automação.
+    \item Montar um ambiente científico em Linux.
+    \item Contribuir com software livre.
+}
+
+\placeholder{Esta seção deve propor atividades práticas que consolidem os conhecimentos do livro.}
+
+\section{Trilhas de aprofundamento}
+
+\topicos{
+    \item Administração de sistemas.
+    \item Ciência de dados reprodutível.
+    \item HPC.
+    \item Engenharia de dados.
+    \item Desenvolvimento de software.
+}
+
+\placeholder{Esta seção deve apresentar caminhos possíveis após a leitura do livro, conectando Linux a trajetórias acadêmicas e profissionais.}
+
+\section{Participação no GULECD/UFPR}
+
+\topicos{
+    \item Grupos de estudo.
+    \item Oficinas.
+    \item Projetos colaborativos.
+    \item Apoio a novos estudantes.
+}
+
+\placeholder{Esta seção deve convidar o estudante a participar da comunidade e transformar aprendizado individual em prática coletiva.}
+
+\cleardoublepage
+\section*{Bibliografia do Capítulo}
+\addcontentsline{toc}{section}{Bibliografia do Capítulo}
+\printbibliography[
+    heading=none,
+    notcategory=recomendadosProximosPassos
+]
+
+\section*{Leitura Recomendada}
+\addcontentsline{toc}{section}{Leitura Recomendada}
+\nocite{lacroixLinuxMintEssentials2014,jrLinuxCommandLine2012}
+\printbibliography[
+    heading=none,
+    category=recomendadosProximosPassos
+]
+\end{refsection}
+
+% ============================================================
+% Glossário
+% ============================================================
+
+\cleardoublepage
+\printglossary[title={Glossário},toctitle={Glossário}]
+
+% ============================================================
+% Sobre o GULECD/UFPR
+% ============================================================
+
+\cleardoublepage
+\chapter*{Sobre o Grupo de Usuários Linux e Software Livre do Curso de Estatística e Ciência de Dados da UFPR}
+\addcontentsline{toc}{chapter}{Sobre o GULECD/UFPR}
+
+O Grupo de Usuários Linux e Software Livre do Curso de Estatística e Ciência de Dados da UFPR, também referido como GULECD/UFPR, é uma iniciativa estudantil, colaborativa e acadêmica voltada à promoção do uso de Linux, software livre, ciência aberta, computação científica e boas práticas computacionais no contexto da formação em Estatística e Ciência de Dados.
+
+O grupo nasce da percepção de que a formação contemporânea em estatística, ciência de dados e pesquisa quantitativa exige mais do que domínio de métodos matemáticos e estatísticos. Exige também capacidade de operar ambientes computacionais reais, compreender sistemas, automatizar tarefas, trabalhar de forma reprodutível, colaborar em projetos versionados e usar ferramentas abertas de modo crítico e competente.
+
+Entre suas atividades potenciais estão oficinas, cursos, grupos de estudo, produção de material didático, apoio a estudantes iniciantes, desenvolvimento de pequenos projetos de software, promoção de boas práticas de reprodutibilidade e articulação com docentes, técnicos e demais membros da comunidade universitária.
+
+Este livro é uma das expressões desse projeto formativo. Ele busca oferecer aos estudantes um caminho de entrada ao Linux que seja tecnicamente consistente, pedagogicamente acessível e alinhado às necessidades reais de quem trabalha com dados, modelos, programação, pesquisa científica e colaboração aberta.
+
+% ============================================================
+% Fim do documento
+% ============================================================
+
+\end{document}
