@@ -175,11 +175,6 @@ Este projeto está associado ao:
 - 🐧 GULECD/UFPR  
   (Grupo de Usuários Linux e Software Livre do Curso de Estatística e Ciência de Dados - UFPR)
 
----
-
-## 📬 Contato
-
-- 💬 Grupo de WhatsApp - https://chat.whatsapp.com/I2ARC7MtsPqH6RQhUqS06n
 
 ---
 
